@@ -1,0 +1,1 @@
+const t={key:"v-8daa1a0e",path:"/",title:"Home",lang:"zh-CN",frontmatter:{home:!0,title:"Home",actions:[{text:"Get Started",link:"/guide/getting-started.html",type:"primary"},{text:"Introduction",link:"/guide/",type:"secondary"}],footer:"MIT Licensed | Copyright \xA9 2018-present idanran"},excerpt:"",headers:[],git:{},filePathRelative:"README.md"};export{t as data};
