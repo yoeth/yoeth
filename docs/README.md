@@ -1,5 +1,5 @@
 ---
-title: 核心 API
+title: 核心 API （我们不鼓励查阅此文档，因为此文档问题很大）
 ---
 
 # Session
@@ -47,7 +47,7 @@ title: 核心 API
 | -------- | ------ | -------------- |
 | group_id | string | 群 ID          |
 | user_id  | string | 用户 ID        |
-| duration | i64    | 时长，单位：秒 |
+| duration | number    | 时长，单位：秒 |
 
 ## 解禁群成员 unban_group_member
 
