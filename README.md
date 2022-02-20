@@ -1,7 +1,9 @@
 # Yoeth
 
-一个 OneBot 协议应用端
+一个轻巧的 OneBot 协议应用端
 
-文档: [https://github.com/yoeth/yoeth/tree/main/docs](https://github.com/yoeth/yoeth/tree/main/docs)
+示例: [https://github.com/yoeth/yoeth_example](https://github.com/yoeth/yoeth_example)
+
+文档: [https://github.com/yoeth/yoeth_docs](https://github.com/yoeth/yoeth_docs)
 
 **目前所有功能均未完成，请谨慎使用。**
