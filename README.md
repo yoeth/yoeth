@@ -10,3 +10,7 @@
 文档: [https://github.com/yoeth/yoeth_docs](https://github.com/yoeth/yoeth_docs)
 
 **目前所有功能均未完成，请谨慎使用。**
+
+## 联系方式
+
+Discord: [https://discord.gg/YFXGRtQUhT](https://discord.gg/YFXGRtQUhT)
