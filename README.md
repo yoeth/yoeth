@@ -5,11 +5,33 @@
 
 一个轻巧、易用的 Deno 聊天机器人框架，支持 OneBot 12协议。
 
-示例: [https://github.com/yoeth/yoeth_example](https://github.com/yoeth/yoeth_example)
-
 文档: [https://github.com/yoeth/yoeth_docs](https://github.com/yoeth/yoeth_docs)
 
 **目前所有功能均未完成，请谨慎使用。**
+
+## 快速开始
+
+### 安装 Deno
+
+**使用 PowerShell:**
+
+```powershell
+iwr https://deno.land/x/install/install.ps1 -useb | iex
+```
+
+### 下载 Yoeth 示例
+
+[https://github.com/yoeth/yoeth_example](https://github.com/yoeth/yoeth_example)
+
+### 运行
+
+在 Yoeth 示例根目录下
+
+**使用 PowerShell:**
+
+```powershell
+deno task start
+```
 
 ## 联系方式
 
