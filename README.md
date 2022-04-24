@@ -33,6 +33,10 @@ iwr https://deno.land/x/install/install.ps1 -useb | iex
 deno task start
 ```
 
+## 鸣谢
+
+本项目的部分代码源自 Koishi，透过 MIT 协议获得许可，在此向 Koishi 开发组致以谢意。
+
 ## 联系方式
 
 Discord: [https://discord.gg/YFXGRtQUhT](https://discord.gg/YFXGRtQUhT)
