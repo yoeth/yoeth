@@ -11,3 +11,16 @@ export function isConstructor(func: Function) {
   if (func.prototype.constructor !== func) return false
   return true
 }
+
+export function coerce(val: any) {
+  const { stack } = val instanceof Error ? val : new Error(val as any)
+  return stack
+}
+
+export async function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+export function isNullable(value: any) {
+  return value === null || value === undefined
+}

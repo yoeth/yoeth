@@ -1,5 +1,6 @@
 import { Logger, defineProperty, Random, isConstructor } from "../utils/mod.js";
 import { std } from "../../deps.js";
+import segment from "./segment.js";
 
 export var Next;
 (function (Next) {
@@ -165,75 +166,6 @@ export class Context {
     middleware(middleware, prepend = false) {
         return this.on(Context.middleware, middleware, prepend);
     }
-    /*getCommand(name) {
-        return this.app._commands.get(name);
-    }
-    command(def, ...args) {
-        const desc = typeof args[0] === "string" ? args.shift() : "";
-        const config = args[0];
-        const path = def.split(" ", 1)[0].toLowerCase();
-        const decl = def.slice(path.length);
-        const segments = path.split(/(?=[./])/g);
-        let parent, root;
-        const list = [];
-        segments.forEach((segment, index) => {
-            const code = segment.charCodeAt(0);
-            const name = code === 46
-                ? parent.name + segment
-                : code === 47
-                    ? segment.slice(1)
-                    : segment;
-            let command = this.getCommand(name);
-            if (command) {
-                if (parent) {
-                    if (command === parent) {
-                        throw new Error(
-                            `cannot set a command (${command.name}) as its own subcommand`,
-                        );
-                    }
-                    if (command.parent) {
-                        if (command.parent !== parent) {
-                            throw new Error(
-                                `cannot create subcommand ${path}: ${command.parent.name}/${command.name} already exists`,
-                            );
-                        }
-                    } else {
-                        command.parent = parent;
-                        parent.children.push(command);
-                    }
-                }
-                return parent = command;
-            }
-            command = new Command(name, decl, this);
-            list.push(command);
-            if (!root) {
-                root = command;
-            }
-            if (parent) {
-                command.parent = parent;
-                command.config.authority = parent.config.authority;
-                parent.children.push(command);
-            }
-            parent = command;
-        });
-        if (desc) {
-            this.i18n.define("", `commands.${parent.name}.description`, desc);
-        }
-        Object.assign(parent.config, config);
-        list.forEach((command) => this.emit("command-added", command));
-        if (!(config === null || config === void 0 ? void 0 : config.patch)) {
-            if (root) {
-                this.state.disposables.unshift(() => root.dispose());
-            }
-            return parent;
-        }
-        if (root) {
-            root.dispose();
-        }
-        const command = Object.create(parent);
-        command._disposables = this.state.disposables;
-        return command;
-    }*/
     async plugin(entry, config) {
         const file = typeof entry === "string" ? entry : null;
         // load plugin by name
@@ -273,15 +205,15 @@ export class Context {
             this.state.children.push(plugin);
             const callback = () => {
                 if (typeof plugin !== "function") {
-                    plugin.apply(context, config);
+                    plugin.apply({ context, config, segment });
                 } else if (isConstructor(plugin)) {
                     // eslint-disable-next-line new-cap
-                    const instance = new plugin(context, config);
+                    const instance = new plugin({ context, config, segment });
                     if (instance instanceof Service && instance.immediate) {
                         context[instance.name] = instance;
                     }
                 } else {
-                    plugin(context, config);
+                    plugin({ context, config, segment });
                 }
             };
             callback();

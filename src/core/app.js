@@ -1,9 +1,10 @@
 import { Context, Next, Plugin } from "./context.js";
 import { OneBot } from "./onebot.js";
-import { Logger, isConstructor } from "../utils/mod.js";
+import { Logger, isConstructor, coerce } from "../utils/mod.js";
+import segment from "./segment.js";
 
 const logger = new Logger('app')
-logger.info(`%C`, "Yoeth/0.1.0");
+logger.info(`%C`, "Yoeth/0.1.1");
 
 export class App extends Context {
   constructor(options) {
@@ -15,7 +16,7 @@ export class App extends Context {
     this.bots = new OneBot.BotList(this);
     this._hooks = {};
     this._sessions = Object.create(null);
-    this.options = options || { maxListeners: 64 };
+    this.options = options || { maxListeners: 64, delay: { broadcast: 500, character: 0, message: 100 } };
     this.isActive = false;
     this._tasks = new TaskQueue()
     this.registry.set(null, {
@@ -41,22 +42,22 @@ export class App extends Context {
   _applyMessagePlugin(session) {
     this.message_plugin_registry.forEach((v) => {
       if (typeof v.plugin !== "function") {
-        v.plugin.apply({ session, config: v.config });
+        v.plugin.apply({ session, config: v.config, segment });
       } else if (isConstructor(v.plugin)) {
-        new v.plugin({ session, config: v.config });
+        new v.plugin({ session, config: v.config, segment });
       } else {
-        v.plugin({ session, config: v.config });
+        v.plugin({ session, config: v.config, segment });
       }
     })
   }
   _applyNoticePlugin(session) {
     this.notice_plugin_registry.forEach((v) => {
       if (typeof v.plugin !== "function") {
-        v.plugin.apply({ session, config: v.config });
+        v.plugin.apply({ session, config: v.config, segment });
       } else if (isConstructor(v.plugin)) {
-        new v.plugin({ session, config: v.config });
+        new v.plugin({ session, config: v.config, segment });
       } else {
-        v.plugin({ session, config: v.config });
+        v.plugin({ session, config: v.config, segment });
       }
     })
   }

@@ -27,6 +27,9 @@ export class OneBot extends Server {
       this.app = app;
       this.adapters = {};
     }
+    get(id) {
+      return this.find(bot => bot.self_id === id)
+    }
     create(options) {
       const adapter = this.resolve(options);
       const bot = new Bot(adapter, options);
