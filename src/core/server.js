@@ -6,6 +6,10 @@ class WebsocketsRegistry extends Map {
 
 }
 
+class HttpRegistry extends Map {
+
+}
+
 const logger = new Logger("server");
 
 export class Server {
@@ -16,6 +20,7 @@ export class Server {
     this.num = 0;
     this.self_id = config.self_id;
     this.ws_registry = new WebsocketsRegistry();
+    this.http_registry = new HttpRegistry();
   }
   onmessage(e, flag) {
     let parsed;
@@ -126,6 +131,9 @@ export class Server {
     }, { port: port, hostname: host });
   }
   start() {
+    if (this.config.disable) {
+      return false;
+    }
     if (typeof this.config.protocol.websocket_rev !== "undefined") {
       for (
         const config of this.config.protocol
@@ -140,6 +148,22 @@ export class Server {
           .websocket
       ) {
         this.connect(config);
+      }
+    }
+    if (typeof this.config.protocol.http !== "undefined") {
+      let h_num = 0;
+      for (
+        const { disable = false, access_token = null, url } of this.config.protocol
+          .http
+      ) {
+        if (disable) {
+          continue;
+        }
+        this.http_registry.set(`h_${h_num}_${this.config.self_id}`, {
+          url,
+          access_token,
+        });
+        h_num += 1;
       }
     }
   }
@@ -163,6 +187,27 @@ export class Server {
           }),
         );
       }
+    });
+    this.http_registry.forEach((v,k) => {
+      task.push(
+        new Promise((resolve, reject) => {
+          const headers = new Headers();
+          headers.append('Content-Type', 'application/json');
+          v.access_token !== null && headers.append('Authorization', v.access_token);
+          fetch(v.url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(data),
+          })
+            .then(response => response.json())
+            .then(data => {
+              resolve(data)
+            })
+            .catch(error => {
+              logger.error(`请求失败，其标识号为“${k}”，统一资源定位符(url)为“%c”，通信方式为“http”，错误信息为“${error.message}”`, v.url);
+            })
+        }),
+      );
     });
     if (task.length === 0) {
       logger.error(`无可用连接，机器人自身账号(self_id)为“${this.self_id}”拥有的 websocket 实例总数为“${this.ws_registry.length}”`);
