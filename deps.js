@@ -14,3 +14,5 @@ export var std;
     std.inspect = inspect;
     std.rgb8 = rgb8;
 })(std || (std = {}));
+
+export * as msgpack from "https://esm.sh/@msgpack/msgpack/mod.ts";

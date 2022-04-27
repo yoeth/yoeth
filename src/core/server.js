@@ -1,4 +1,4 @@
-import { std } from "../../deps.js";
+import { std, msgpack } from "../../deps.js";
 import { Logger } from "../utils/mod.js";
 import { Session } from "./session.js";
 
@@ -25,7 +25,7 @@ export class Server {
   onmessage(e, flag) {
     let parsed;
     try {
-      parsed = JSON.parse(e.data);
+      typeof e.data === "string" ? (parsed = JSON.parse(e.data)) : (parsed = msgpack.decode(e.data));
     } catch (error) {
       logger.error(`消息解析失败，${flag}，原始消息为“${e.data}”`)
     }
@@ -167,13 +167,15 @@ export class Server {
       }
     }
   }
-  _request(action, params) {
+  _request(action, params, isMessagePack) {
     const data = {
-      "action": action,
-      "params": params,
-      "echo": new Date().getTime().toString(),
+      action,
+      params,
+      echo: new Date().getTime().toString(),
     };
     let task = [];
+    let serializableData;
+    isMessagePack ? (serializableData = msgpack.encode(data)) : (serializableData = JSON.stringify(data));
     this.ws_registry.forEach((v) => {
       if (v.status === "open") {
         task.push(
@@ -183,21 +185,21 @@ export class Server {
                     delete this.listeners[data.echo];
                     reject(new Error("response timeout"));
                   }, 1500);*/
-            v.socket.send(JSON.stringify(data));
+            v.socket.send(serializableData);
           }),
         );
       }
     });
-    this.http_registry.forEach((v,k) => {
+    this.http_registry.forEach((v, k) => {
       task.push(
         new Promise((resolve, reject) => {
           const headers = new Headers();
-          headers.append('Content-Type', 'application/json');
+          isMessagePack ? headers.append('Content-Type', 'application/msgpack') : headers.append('Content-Type', 'application/json');
           v.access_token !== null && headers.append('Authorization', v.access_token);
           fetch(v.url, {
             method: 'POST',
             headers: headers,
-            body: JSON.stringify(data),
+            body: serializableData,
           })
             .then(response => response.json())
             .then(data => {

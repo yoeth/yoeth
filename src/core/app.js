@@ -4,7 +4,7 @@ import { Logger, isConstructor, coerce } from "../utils/mod.js";
 import segment from "./segment.js";
 
 const logger = new Logger('app');
-logger.info(`%C`, "Yoeth/0.1.2");
+logger.info(`%C`, "Yoeth/0.1.3");
 
 export class App extends Context {
   constructor(options) {

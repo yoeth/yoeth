@@ -14,6 +14,9 @@ export class OneBot extends Server {
     const events = [session.type];
     if (session.detail_type) {
       events.unshift(events[0] + '.' + session.detail_type);
+      if (session.sub_type) {
+        events.unshift(events[0] + '.' + session.sub_type);
+      }
     }
     for (const event of events) {
       this.ctx.emit(session, event, session);

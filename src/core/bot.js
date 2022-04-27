@@ -5,11 +5,11 @@ export class Bot {
         this.app = adapter.ctx.app
         this.self_id = config.self_id
     }
-    action(action, params = {}) {
+    action(action, params = {}, isMessagePack = false) {
         const field = ["message", "group_id", "user_id", "message_id", "group_name"]
         for (const entry of field) {
             typeof params[entry] === "number" && (params[entry] = params[entry].toString())
         }
-        return this.adapter._request(action, params)
+        return this.adapter._request(action, params, isMessagePack)
     }
 }
