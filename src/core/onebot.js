@@ -12,11 +12,9 @@ export class OneBot extends Server {
     if (!this.ctx.app.isActive)
       return;
     const events = [session.type];
-    if (session.detail_type) {
-      events.unshift(events[0] + '.' + session.detail_type);
-      if (session.sub_type) {
-        events.unshift(events[0] + '.' + session.sub_type);
-      }
+    events.unshift(events[0] + '.' + session.detail_type);
+    if (session.sub_type && session.sub_type !== "") {
+      events.unshift(events[0] + '.' + session.sub_type);
     }
     for (const event of events) {
       this.ctx.emit(session, event, session);
