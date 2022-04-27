@@ -7,7 +7,7 @@
 
 文档: [https://github.com/yoeth/yoeth_docs](https://github.com/yoeth/yoeth_docs)
 
-**目前所有功能均未完成，请谨慎使用。**
+**欢迎在 Discussions 提出您想要的功能，或是对现有功能的建议。**
 
 ## 快速开始
 
