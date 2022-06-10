@@ -1,11 +1,11 @@
 # Yoeth
 
 [![OneBot](https://img.shields.io/badge/OneBot-12-black?style=flat-square)](https://12.onebot.dev/)
-[![GitHub](https://img.shields.io/github/license/yoeth/yoeth?style=flat-square)](https://github.com/yoeth/yoeth/blob/main/LICENSE)
+[![LICENSE](https://img.shields.io/github/license/yoeth/yoeth?style=flat-square)](https://github.com/yoeth/yoeth/blob/main/LICENSE)
+[![Version](https://img.shields.io/github/v/tag/yoeth/yoeth.svg)](https://github.com/yoeth/yoeth/releases)
+[![Deno doc](https://doc.deno.land/badge.svg)](https://doc.deno.land/https://deno.land/x/yoeth/mod.ts)
 
 一个轻巧的 Deno 聊天机器人框架，支持 OneBot 12 标准。
-
-文档: [https://github.com/yoeth/yoeth_docs](https://github.com/yoeth/yoeth_docs)
 
 **欢迎在 Discussions 提出您想要的功能，或是对现有功能的建议。**
 
